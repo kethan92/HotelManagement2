@@ -1,0 +1,162 @@
+﻿@model HotelManagerReponsity_MVC.ViewModel.room_Type_DescriptionViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Room
+                <small>List</small>
+            </h1>
+        </div>
+        <!-- /.col-lg-12 -->
+        <!-- Tạo danh sách loại phòng-->
+        <div class="col-lg-12" style="height:80px;border-style:solid;border-width:1px;">
+            @using (Html.BeginForm("Index", "Home"))
+            {
+                <div class="col-lg-3" style="color:blue;">
+                    Chọn loại phòng:
+                </div>
+
+                <div class="col-lg-6">
+                    <div>
+                        Phòng giường đơn. @Html.RadioButtonFor(model => model.room_Type_Description, "Phòng giường đơn", new { @class = "col-lg-4", @value = "Phòng giường đơn" })
+                    </div>
+                    <div>
+                        Phòng giường đơn lớn. @Html.RadioButtonFor(model => model.room_Type_Description, "Phòng giường đơn lớn", new { @class = "col-lg-4", @value = "Phòng giường đơn lớn" })
+                    </div>
+                    <div>
+                        Phòng giường đôi. @Html.RadioButtonFor(model => model.room_Type_Description, "Phòng giường đôi", new { @class = "col-lg-4", @value = "Phòng giường đôi" })
+                    </div>
+
+                </div>
+
+                <div class="col-lg-3">
+                    <button type="submit" class="btn btn-default">
+                        Tìm kiếm
+                    </button>
+                </div>
+            }
+
+        </div>
+        <div class="col-lg-12" style="border-style:solid;border-width:1px;">
+            <div class="col-lg-4"><img style="width:40px;height:40px;" src="~/Assets/Scripts/upload/images/room_thue.jpg" />Đang thuê   </div>
+            <div class="col-lg-4"><img src="~/Assets/Scripts/upload/images/room_datphong.jpg" style="width:40px;height:40px;" />Đã đặt phòng</div>
+            <div class="col-lg-4"><img src="~/Assets/Scripts/upload/images/room_trong.jpg" style="width:40px;height:40px;" />Phòng còn trống</div>
+        </div>
+        <br>
+
+        <table class="table table-striped table-bordered table-hover" id="dataTables-example" style="border-style:solid;border-width:1px;">
+            <thead>
+                <tr align="center">
+
+                    <th>
+                        <a href="/Home/Create" class="btn btn-primary active" role="button" aria-pressed="true">Thêm mới</a>
+                    </th>
+
+
+                </tr>
+
+            </thead>
+            <tbody>
+
+                <tr style="width:100%">
+                    <td valign="top" style="padding-top:5px;" id="saleoffpro">
+                        <div style="padding-top:10px;">
+
+                            @foreach (var item in ViewBag.roomsList)
+                            {
+                                <div style="width:150px;float:left;margin-top:10px;margin-left:34px;">
+                                    <table width="130" border="0" style="border-collapse:collapse;border:1px solid #ddd;">
+
+
+                                        @if (item.status == "Phòng còn trống")
+                                        {
+                                            <tbody>
+                                                <tr>
+                                                    <td align="center" height="110">
+                                                        <a href="">
+                                                            <img alt=""
+                                                                 title=""
+                                                                 src="~/Assets/Scripts/upload/images/room_trong.jpg"
+                                                                 width="120" height="100" border="0" onmouseover="obj_filter(this,80);" onmouseout="obj_filter(this,100);">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        }
+                                        else if (item.status == "Đang thuê")
+                                        {
+                                            <tbody>
+                                                <tr>
+                                                    <td align="center" height="110">
+                                                        <a href="#">
+                                                            <img alt=""
+                                                                 title=""
+                                                                 src="~/Assets/Scripts/upload/images/room_thue.jpg"
+                                                                 width="120" height="100" border="0" onmouseover="obj_filter(this,80);" onmouseout="obj_filter(this,100);">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        }
+                                        else if (item.status == "Đã đặt phòng")
+                                        {
+                                            <tbody>
+                                                <tr>
+                                                    <td align="center" height="110">
+                                                        <a href="#">
+                                                            <img alt=""
+                                                                 title=""
+                                                                 src="~/Assets/Scripts/upload/images/room_datphong.jpg"
+                                                                 width="120" height="100" border="0" onmouseover="obj_filter(this,80);" onmouseout="obj_filter(this,100);">
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        }
+                                    </table>
+                                    <table width="130" border="0" cellpadding="0" cellspacing="0" style="border-collapse:collapse">
+                                        <tbody>
+                                            <tr>
+                                                <td align="center" style="height:25px;">
+                                                    <a href="#" class="namepro_dg" title="BỒN TẮM XÂY 1.7M MASSAGE CAESAR MT0270">
+                                                        @item.nameRoom
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td title="Đặt mua" align="center" style="cursor:pointer;">
+                                                    <a href="javascript:void(0);" onclick="addcart('2127709');" class="price_prnb">
+                                                        <b>9 850 000 đ</b>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            }
+
+
+
+
+
+
+
+
+
+
+
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- /.row -->
+</div>
+
+
+
