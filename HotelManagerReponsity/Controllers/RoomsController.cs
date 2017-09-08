@@ -9,17 +9,38 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using HotelManagerReponsity.Models;
+using HotelManagerReponsity.Reponsity;
+using HotelManagerReponsity.ViewModel;
 
 namespace HotelManagerReponsity.Controllers
 {
     public class RoomsController : ApiController
     {
         private RoomManagerEntities db = new RoomManagerEntities();
+        private IRoomRepository _roomRepository;
+        private IRoom_StatusRepository _roomStatusRepository;
+        public RoomsController()
+        {
+            _roomRepository = new RoomRepository();
+            _roomStatusRepository = new Room_StatusRepository();
+        }
 
         // GET: api/Rooms
-        public IQueryable<Room> GetRooms()
+        [HttpGet]
+        public HttpResponseMessage GetRooms()
         {
-            return db.Rooms;
+            var query = from a in _roomRepository.GetAll().Include("_roomStatusRepository.GetAll()")
+                        select new RoomStatus
+                        {
+                            RoomNumber=a.RoomNumber,
+                            nameRoom=a.nameRoom,
+                            RoomStatus_id=a.RoomStatus_id,
+                            RoomType_id=a.RoomType_id,
+                            status=a.Room_Status.status
+                        };
+            
+             HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, query);
+             return response;
         }
 
         // GET: api/Rooms/5
